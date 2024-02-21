@@ -52,4 +52,14 @@ class CookieControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "black", response.parsed_body.dig("signed", "coffee")
   end
+
+  test "read and set combined cookies_jar" do
+    cookies_jar.signed.encrypted[:coffee] = "black"
+
+    get :show, params: { signed_and_encrypted: { ice_cream: "vanilla" } }
+    assert_response :success
+
+    assert_equal "black", cookies_jar.signed.encrypted[:coffee]
+    assert_equal "vanilla", cookies_jar.signed.encrypted[:ice_cream]
+  end
 end

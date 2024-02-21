@@ -79,4 +79,14 @@ RSpec.describe "GET /cookie", type: :request do
     expect(cookies_jar.permanent[:juice]).to eq("orange")
     expect(cookies_jar.signed[:fruit]).to eq("apple")
   end
+
+  it "reads and sets combined cookies_jar" do
+    cookies_jar.signed.encrypted[:coffee] = "black"
+
+    get "/cookie", params: { signed_and_encrypted: { ice_cream: "vanilla" } }
+    expect(response).to be_successful
+
+    expect(cookies_jar.signed.encrypted[:coffee]).to eq("black")
+    expect(cookies_jar.signed.encrypted[:ice_cream]).to eq("vanilla")
+  end
 end

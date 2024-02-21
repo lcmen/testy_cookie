@@ -52,4 +52,14 @@ RSpec.describe CookieController, type: :controller do
     expect(response).to be_successful
     expect(response.parsed_body.dig("signed", "coffee")).to eq("black")
   end
+
+  it "reads and sets combined cookies_jar" do
+    cookies_jar.signed.encrypted[:coffee] = "black"
+
+    get :show, params: { signed_and_encrypted: { ice_cream: "vanilla" } }
+    expect(response).to be_successful
+
+    expect(cookies_jar.signed.encrypted[:coffee]).to eq("black")
+    expect(cookies_jar.signed.encrypted[:ice_cream]).to eq("vanilla")
+  end
 end

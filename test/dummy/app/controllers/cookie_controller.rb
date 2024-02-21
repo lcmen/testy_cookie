@@ -19,6 +19,9 @@ class CookieController < ApplicationController
     params.fetch(:signed, {}).each do |key, value|
       cookies.signed[key] = value
     end
+    params.fetch(:signed_and_encrypted, {}).each do |key, value|
+      cookies.signed.encrypted[key] = value
+    end
   end
 
   def cookies_data

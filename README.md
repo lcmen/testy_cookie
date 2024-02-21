@@ -9,6 +9,7 @@ Inside your controller / integration / request test, call `cookies_jar` helper t
 ```ruby
 cookies_jar.encrypted[:key]
 cookies_jar.signed[:key] = value
+cookies_jar.signed.encrypted.permanent[:key] = value
 ```
 
 ## Installation
