@@ -1,62 +1,77 @@
 module TestyJar
   class Store
     class Proxy < SimpleDelegator
-      def initialize(jar, store, cookies, read_only)
+      def initialize(jar, store, cookies)
         super(store)
         @jar = jar
         @cookies = cookies
-        @read_only = read_only
       end
 
       def []=(key, value)
-        raise(ArgumentError, "Cannot write to cookies as the response has already been sent") if @read_only
-
         super
-        @cookies[key] = @jar[key]
+        @cookies[key] = @jar[key] if @cookies
       end
     end
 
-    delegate :[], to: :jar
+    delegate :cookies, to: :@context
 
-    def initialize(cookies, request:, response:)
-      @cookies = cookies
-      @request = request
-      @response = response
-    end
-
-    def []=(key, value)
-      raise(ArgumentError, "Cannot write to cookies as the response has already been sent") if read_only?
-
-      jar[key] = value
-      @cookies[key] = value
+    def initialize(context)
+      @context = context
     end
 
     def encrypted
-      @encrypted ||= Proxy.new(jar, jar.encrypted, @cookies, read_only?)
+      Proxy.new(jar, jar.encrypted, cookies)
+    end
+
+    def permanent
+      Proxy.new(jar, jar.permanent, cookies)
+    end
+
+    def plain
+      Proxy.new(jar, cookies, nil)
     end
 
     def signed
-      @signed ||= Proxy.new(jar, jar.signed, @cookies, read_only?)
+      Proxy.new(jar, jar.signed, cookies)
     end
 
     private
 
     def jar
-      @jar ||= response_cookies || request_cookies
+      response_cookies || request_cookies
     end
 
-    def read_only?
-      @response.present?
+    def request
+      # Memoize the request object until the next request is made and cookies jar needs to be reevaluated
+      if @request != @context.request
+        @request = @context.request
+        @request_cookies = nil
+      end
+
+      @request
     end
 
     def request_cookies
-      ActionDispatch::Request.new(Rails.application.env_config.deep_dup).cookie_jar
+      @request_cookies ||= ActionDispatch::Request.new(Rails.application.env_config.deep_dup).cookie_jar
+    end
+
+    def response
+      # Memoize the response object until the next request is made and cookies jar needs to be reevaluated
+      if @response != @context.response
+        @response = @context.response
+        @response_cookies = nil
+      end
+
+      @response
     end
 
     def response_cookies
-      return unless @response
+      return unless response.present?
+      # We need to check for `path_parameters` in request because controller tests initialize
+      # request and response objects before the actual controller action is called.
+      return unless request&.path_parameters.present?
 
-      ActionDispatch::Cookies::CookieJar.build(@request, @response.cookies)
+      @response_cookies ||= ActionDispatch::Cookies::CookieJar.build(request, cookies.to_hash)
     end
   end
 end

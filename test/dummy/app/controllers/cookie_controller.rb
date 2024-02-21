@@ -13,13 +13,21 @@ class CookieController < ApplicationController
     params.fetch(:encrypted, {}).each do |key, value|
       cookies.encrypted[key] = value
     end
+    params.fetch(:permanent, {}).each do |key, value|
+      cookies.permanent[key] = value
+    end
     params.fetch(:signed, {}).each do |key, value|
       cookies.signed[key] = value
     end
   end
 
   def cookies_data
-    { cookie: serialize(cookies), encrypted: serialize(cookies.encrypted), signed: serialize(cookies.signed) }
+    {
+      cookie: serialize(cookies),
+      encrypted: serialize(cookies.encrypted),
+      permanent: serialize(cookies.permanent),
+      signed: serialize(cookies.signed)
+    }
   end
 
   def serialize(jar)
