@@ -1,14 +1,15 @@
-require_relative "lib/testy_jar/version"
+require_relative "lib/testy_cookie/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "testy_jar"
-  spec.version     = TestyJar::VERSION
+  spec.name        = "TestyCookie"
+  spec.version     = TestyCookie::VERSION
   spec.authors     = ["Lucas Mendelowski"]
   spec.email       = ["lucas@mendelowski.com"]
-  spec.homepage    = "https://github.com/lcmen/testy_jar"
+  spec.homepage    = "https://github.com/lcmen/testy_cookie"
   spec.summary     = "Helpers for accessing cookies in Rails tests."
   spec.description = <<~DESCRIPTION.strip
-    TestyJar provides a simple way to access plain, signed and encrypted cookies in Rails controller / request / integration tests.
+    TestyCookie provides a helper to access plain, permanent, signed and encrypted cookies
+    in Rails controller / integration / request tests.
   DESCRIPTION
   spec.license     = "MIT"
 

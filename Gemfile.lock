@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    testy_jar (0.1.0)
+    TestyCookie (0.1.0)
       rails (>= 7.1.3)
 
 GEM
@@ -217,8 +217,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  TestyCookie!
   rspec-rails
-  testy_jar!
 
 BUNDLED WITH
    2.5.3

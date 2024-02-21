@@ -1,4 +1,4 @@
-module TestyJar
+module TestyCookie
   class Store
     class Proxy < SimpleDelegator
       def initialize(jar, store, cookies)

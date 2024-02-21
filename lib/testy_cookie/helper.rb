@@ -1,4 +1,4 @@
-module TestyJar
+module TestyCookie
   module Helper
     def cookies_jar
       @cookies_jar ||= Store.new(self)
