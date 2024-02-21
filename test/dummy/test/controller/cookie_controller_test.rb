@@ -4,7 +4,7 @@ class CookieControllerTest < ActionController::TestCase
   test "read plain cookies" do
     get :show, params: { cookies: { coffee: "black" } }
     assert_response :success
-    assert_equal "black", cookies_jar.plain[:coffee]
+    assert_equal "black", cookies_jar[:coffee]
   end
 
   test "read encrypted cookies" do
@@ -26,7 +26,7 @@ class CookieControllerTest < ActionController::TestCase
   end
 
   test "set plain cookies" do
-    cookies_jar.plain[:coffee] = "black"
+    cookies_jar[:coffee] = "black"
     get :show
     assert_response :success
     assert_equal "black", response.parsed_body.dig("cookie", "coffee")

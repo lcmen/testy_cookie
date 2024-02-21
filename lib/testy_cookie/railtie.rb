@@ -1,7 +1,6 @@
 module TestyCookie
   class Railtie < ::Rails::Railtie
     initializer "testy_cookie.add_helpers" do
-      binding.irb
       ActiveSupport::TestCase.send(:include, TestyCookie::Helper)
 
       if defined?(RSpec) && RSpec.respond_to?(:configure)

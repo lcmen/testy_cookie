@@ -4,7 +4,7 @@ class CookieTest < ActionDispatch::IntegrationTest
   test "read plain cookies" do
     get "/cookie", params: { cookies: { coffee: "black" } }
     assert_response :success
-    assert_equal "black", cookies_jar.plain[:coffee]
+    assert_equal "black", cookies_jar[:coffee]
   end
 
   test "read encrypted cookies" do
@@ -26,7 +26,7 @@ class CookieTest < ActionDispatch::IntegrationTest
   end
 
   test "set plain cookies" do
-    cookies_jar.plain[:coffee] = "black"
+    cookies_jar[:coffee] = "black"
     get "/cookie"
     assert_response :success
     assert_equal "black", response.parsed_body.dig("cookie", "coffee")
@@ -54,15 +54,15 @@ class CookieTest < ActionDispatch::IntegrationTest
   end
 
   test "reading and setting cookies on multiple requests" do
-    cookies_jar.plain[:coffee] = "black"
+    cookies_jar[:coffee] = "black"
     cookies_jar.encrypted[:additive] = "sugar"
     cookies_jar.permanent[:milk] = "soy"
 
     get "/cookie", params: { cookies: { sandwich: "tuna" }, signed: { fruit: "apple" }, permanent: { juice: "orange" } }
     assert_response :success
 
-    assert_equal "black", cookies_jar.plain[:coffee]
-    assert_equal "tuna", cookies_jar.plain[:sandwich]
+    assert_equal "black", cookies_jar[:coffee]
+    assert_equal "tuna", cookies_jar[:sandwich]
     assert_equal "sugar", cookies_jar.encrypted[:additive]
     assert_equal "soy", cookies_jar.permanent[:milk]
     assert_equal "orange", cookies_jar.permanent[:juice]
@@ -70,8 +70,8 @@ class CookieTest < ActionDispatch::IntegrationTest
 
     get "/cookie", params: { encrypted: { cake: "chocolate" }, permanent: { ice_cream: "vanilla" } }
 
-    assert_equal "black", cookies_jar.plain[:coffee]
-    assert_equal "tuna", cookies_jar.plain[:sandwich]
+    assert_equal "black", cookies_jar[:coffee]
+    assert_equal "tuna", cookies_jar[:sandwich]
     assert_equal "sugar", cookies_jar.encrypted[:additive]
     assert_equal "chocolate", cookies_jar.encrypted[:cake]
     assert_equal "soy", cookies_jar.permanent[:milk]

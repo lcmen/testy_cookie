@@ -1,45 +1,19 @@
 module TestyCookie
-  class Store
-    class Proxy < SimpleDelegator
-      def initialize(jar, store, cookies)
-        super(store)
-        @jar = jar
-        @cookies = cookies
-      end
-
-      def []=(key, value)
-        super
-        @cookies[key] = @jar[key] if @cookies
-      end
-    end
-
-    delegate :cookies, to: :@context
-
+  class Jar
     def initialize(context)
       @context = context
     end
 
-    def encrypted
-      Proxy.new(jar, jar.encrypted, cookies)
-    end
-
-    def permanent
-      Proxy.new(jar, jar.permanent, cookies)
-    end
-
-    def plain
-      Proxy.new(jar, cookies, nil)
-    end
-
-    def signed
-      Proxy.new(jar, jar.signed, cookies)
+    def cookies
+      jar = if @context.cookies.is_a?(ActionDispatch::Cookies::CookieJar)
+              @context.cookies
+            else
+              response_cookies || request_cookies
+            end
+      Proxy.new(jar, @context.cookies, nil)
     end
 
     private
-
-    def jar
-      response_cookies || request_cookies
-    end
 
     def request
       # Memoize the request object until the next request is made and cookies jar needs to be reevaluated
@@ -71,7 +45,7 @@ module TestyCookie
       # request and response objects before the actual controller action is called.
       return unless request&.path_parameters.present?
 
-      @response_cookies ||= ActionDispatch::Cookies::CookieJar.build(request, cookies.to_hash)
+      @response_cookies ||= ActionDispatch::Cookies::CookieJar.build(request, @context.cookies.to_hash)
     end
   end
 end

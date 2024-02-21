@@ -1,7 +1,7 @@
 require_relative "lib/testy_cookie/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "TestyCookie"
+  spec.name        = "testy_cookie"
   spec.version     = TestyCookie::VERSION
   spec.authors     = ["Lucas Mendelowski"]
   spec.email       = ["lucas@mendelowski.com"]
