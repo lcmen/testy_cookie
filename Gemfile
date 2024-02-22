@@ -2,8 +2,6 @@
 
 source "https://rubygems.org"
 
-ruby file: ".ruby-version"
-
 gemspec
 
 gem "bundler-audit"
