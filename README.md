@@ -1,6 +1,6 @@
 # TestyCookie
 
-`TestyCookie` gem provides a helper for accessing plain, permanent, signed, and encrypted cookies consistently in Rails controller, integration, and request tests.
+`TestyCookie` gem provides a helper for accessing plain, permanent, signed, and encrypted cookies in Rails controller, integration, and request tests.
 
 ## Why do I need a custom helper?
 
