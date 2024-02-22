@@ -1,5 +1,9 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
 
 gemspec
 
-gem "rspec-rails"
+gem 'bundler-audit'
+gem 'rspec-rails'
+gem 'standard'

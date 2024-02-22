@@ -1,0 +1,23 @@
+name: CI
+concurrency:
+  group: rails-${{ github.head_ref || 'main' }}
+  cancel-in-progress: true
+on:
+  pull_request:
+
+jobs:
+  ruby_lints:
+    name: Ruby Lints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Run Standardrb
+        run: bundle exec standardrb
+      - name: Run bundle-audit
+        run: bundle exec bundle audit --update

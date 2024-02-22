@@ -2,25 +2,25 @@ require "test_helper"
 
 class CookieControllerTest < ActionController::TestCase
   test "read plain cookies" do
-    get :show, params: { cookies: { coffee: "black" } }
+    get :show, params: {cookies: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar[:coffee]
   end
 
   test "read encrypted cookies" do
-    get :show, params: { encrypted: { coffee: "black" } }
+    get :show, params: {encrypted: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar.encrypted[:coffee]
   end
 
   test "read permanent cookies" do
-    get :show, params: { permanent: { coffee: "black" } }
+    get :show, params: {permanent: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar.permanent[:coffee]
   end
 
   test "read signed cookies" do
-    get :show, params: { signed: { coffee: "black" } }
+    get :show, params: {signed: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar.signed[:coffee]
   end
@@ -56,7 +56,7 @@ class CookieControllerTest < ActionController::TestCase
   test "read and set combined cookies_jar" do
     cookies_jar.signed.encrypted[:coffee] = "black"
 
-    get :show, params: { signed_and_encrypted: { ice_cream: "vanilla" } }
+    get :show, params: {signed_and_encrypted: {ice_cream: "vanilla"}}
     assert_response :success
 
     assert_equal "black", cookies_jar.signed.encrypted[:coffee]

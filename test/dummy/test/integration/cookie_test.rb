@@ -2,25 +2,25 @@ require "test_helper"
 
 class CookieTest < ActionDispatch::IntegrationTest
   test "read plain cookies" do
-    get "/cookie", params: { cookies: { coffee: "black" } }
+    get "/cookie", params: {cookies: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar[:coffee]
   end
 
   test "read encrypted cookies" do
-    get "/cookie", params: { encrypted: { coffee: "black" } }
+    get "/cookie", params: {encrypted: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar.encrypted[:coffee]
   end
 
   test "read permanent cookies" do
-    get "/cookie", params: { permanent: { coffee: "black" } }
+    get "/cookie", params: {permanent: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar.permanent[:coffee]
   end
 
   test "read signed cookies" do
-    get "/cookie", params: { signed: { coffee: "black" } }
+    get "/cookie", params: {signed: {coffee: "black"}}
     assert_response :success
     assert_equal "black", cookies_jar.signed[:coffee]
   end
@@ -58,7 +58,7 @@ class CookieTest < ActionDispatch::IntegrationTest
     cookies_jar.encrypted[:additive] = "sugar"
     cookies_jar.permanent[:milk] = "soy"
 
-    get "/cookie", params: { cookies: { sandwich: "tuna" }, signed: { fruit: "apple" }, permanent: { juice: "orange" } }
+    get "/cookie", params: {cookies: {sandwich: "tuna"}, signed: {fruit: "apple"}, permanent: {juice: "orange"}}
     assert_response :success
 
     assert_equal "black", cookies_jar[:coffee]
@@ -68,7 +68,7 @@ class CookieTest < ActionDispatch::IntegrationTest
     assert_equal "orange", cookies_jar.permanent[:juice]
     assert_equal "apple", cookies_jar.signed[:fruit]
 
-    get "/cookie", params: { encrypted: { cake: "chocolate" }, permanent: { ice_cream: "vanilla" } }
+    get "/cookie", params: {encrypted: {cake: "chocolate"}, permanent: {ice_cream: "vanilla"}}
 
     assert_equal "black", cookies_jar[:coffee]
     assert_equal "tuna", cookies_jar[:sandwich]
@@ -83,7 +83,7 @@ class CookieTest < ActionDispatch::IntegrationTest
   test "read and set combined cookies_jar" do
     cookies_jar.signed.encrypted[:coffee] = "black"
 
-    get "/cookie", params: { signed_and_encrypted: { ice_cream: "vanilla" } }
+    get "/cookie", params: {signed_and_encrypted: {ice_cream: "vanilla"}}
     assert_response :success
 
     assert_equal "black", cookies_jar.signed.encrypted[:coffee]
