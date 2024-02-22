@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "GET /cookie", type: :request do
   it "reads plain cookies_jar" do
-    binding.irb
     get "/cookie", params: {cookies: {coffee: "black"}}
     expect(response).to be_successful
     expect(cookies_jar[:coffee]).to eq("black")

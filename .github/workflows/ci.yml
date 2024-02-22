@@ -4,6 +4,9 @@ concurrency:
   cancel-in-progress: true
 on:
   pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   ruby_lints:
