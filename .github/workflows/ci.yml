@@ -8,8 +8,8 @@ on:
     branches:
       - main
 jobs:
-  ruby_lints:
-    name: Ruby Lints
+  lints:
+    name: Lints
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,6 +18,17 @@ jobs:
         with:
           bundler-cache: true
       - name: Run Standardrb
-        run: bundle exec standardrb
+        run: bin/standardrb
       - name: Run bundle-audit
-        run: bundle exec bundle audit --update
+        run: bin/bundle-audit --update
+  tests:
+    name: Lints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Ruby and Gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Run all tests
+        run: bin/rake test
