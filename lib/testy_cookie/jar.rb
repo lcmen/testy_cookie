@@ -1,16 +1,17 @@
 module TestyCookie
   class Jar
+    # @param context [ActionController::TestCase, ActionDispatch::IntegrationTest, RSpec::ExampleGroup] the test context
     def initialize(context)
       @context = context
     end
 
+    # @return [ActionDispatch::Cookies::CookieJar] the cookie jar to use
     def cookies
-      jar = if @context.cookies.is_a?(ActionDispatch::Cookies::CookieJar)
-              @context.cookies
-            else
-              response_cookies || request_cookies
-            end
-      Proxy.new(jar, @context.cookies, nil)
+      if @context.cookies.is_a?(ActionDispatch::Cookies::CookieJar)
+        @context.cookies
+      else
+        Proxy.new(response_cookies || request_cookies, @context.cookies, nil)
+      end
     end
 
     private

@@ -1,6 +1,12 @@
 # TestyCookie
 
-`TestyCookie` provides a helper to access plain, permanent, signed and encrypted cookies in Rails controller / integration / request tests.
+`TestyCookie` provides a helper to access plain, permanent, signed and encrypted cookies consistently in Rails controller / integration / request tests.
+
+## Why do I need a custom helper?
+
+`ActionDispatch::IntegrationTest` based tests and RSpec request specs do not provide `encrypted`, `permanent` and `signed` stores on the default `cookies` jar. `TestyCookie` workaround it by initializing `ActionDispatch::Cookies::CookieJar` instance and propagating all changes back to the original `cookies` object (`Rack::Test::CookieJar` instance).
+
+In `ActionController::TestCase` tests and RSpec controller specs (which are going to be deprecated), it's just an alias for the default `cookies` method.
 
 ## Usage
 
