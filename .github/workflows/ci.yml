@@ -2,7 +2,11 @@ name: CI
 concurrency:
   group: rails-${{ github.head_ref || 'main' }}
   cancel-in-progress: true
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 jobs:
   ruby_lints:
     name: Ruby Lints
