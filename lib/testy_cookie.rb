@@ -5,4 +5,5 @@ require "testy_cookie/railtie"
 require "testy_cookie/version"
 
 module TestyCookie
+  DEPRECATOR = ActiveSupport::Deprecation.new("2.0", "TestyCookie")
 end

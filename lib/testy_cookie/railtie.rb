@@ -10,5 +10,9 @@ module TestyCookie
         end
       end
     end
+
+    initializer "testy_cookie.deprecator" do |app|
+      app.deprecators[:testy_cookie] = DEPRECATOR
+    end
   end
 end

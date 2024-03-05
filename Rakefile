@@ -10,6 +10,9 @@ task :test_dummy do
   end
 end
 
-Rake::Task[:test].enhance [:test_dummy]
+task :test_all do
+  Rake::Task["test"].invoke
+  Rake::Task[:test_dummy].invoke
+end
 
-task default: :test
+task default: :test_all

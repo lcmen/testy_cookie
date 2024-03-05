@@ -22,7 +22,7 @@ jobs:
       - name: Run bundle-audit
         run: bin/bundle-audit --update
   tests:
-    name: Lints
+    name: Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,4 +31,4 @@ jobs:
         with:
           bundler-cache: true
       - name: Run all tests
-        run: bin/rake test
+        run: bin/rake test_all
