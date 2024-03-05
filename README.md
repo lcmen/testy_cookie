@@ -4,13 +4,13 @@
 
 ## Why do I need a custom helper?
 
-In Rails `ActionDispatch::IntegrationTest` based tests and RSpec request specs do not provide `encrypted`, `permanent` and `signed` stores on the default `cookies` store. `TestyCookie` resolves this limitation by initializing an `ActionDispatch::Cookies::CookieJar` instance. Dedicated helper propagates all changes made back to the original cookies object (`Rack::Test::CookieJar` instance), ensuring consistent behavior across different types of tests.
+In Rails, `ActionDispatch::IntegrationTest` based tests and RSpec request specs do not provide `encrypted`, `permanent` and `signed` stores when the default `cookies` helper is used (it returns `Rack::Test::CookieJar` instance). `TestyCookie` resolves this limitation by initializing a proper `ActionDispatch::Cookies::CookieJar` instance which support these stores. The included helper also propagates any changes back to the original `Rack::Test::CookieJar` instance making them correctly read in application controllers.
 
-In `ActionController::TestCase` tests and RSpec controller specs, `cookies_jar` serves as an alias for the default `cookies` method.
+In `ActionController::TestCase` tests and RSpec controller specs, `cookie_jar` serves as an alias for the default `cookies` method which returns `ActionDispatch::Cookies::CookieJar` instance correctly.
 
 ## Usage
 
-Inside your controller / integration / request test, call `cookie_jar` helper to access cookies jar:
+Inside your controller / integration / request test, call `cookie_jar` helper to access cookies:
 
 ```ruby
 cookie_jar.encrypted[:key]
