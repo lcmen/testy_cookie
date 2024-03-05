@@ -1,6 +1,6 @@
 require "test_helper"
 
-class DummyClass
+class DummyContext
   include TestyCookie::Helper
 
   def cookies
@@ -13,16 +13,17 @@ class DummyClass
 end
 
 class TestyCookie::HelperTest < ActiveSupport::TestCase
+  setup do
+    @context = DummyContext.new
+  end
+
   test "cookie_jar" do
-    dummy = DummyClass.new
-    assert_instance_of TestyCookie::Proxy, dummy.cookie_jar
+    assert_instance_of TestyCookie::Proxy, @context.cookie_jar
   end
 
   test "cookies_jar" do
-    dummy = DummyClass.new
-
     assert_deprecated(/cookies_jar/, TestyCookie::DEPRECATOR) do
-      assert_instance_of TestyCookie::Proxy, dummy.cookies_jar
+      assert_instance_of TestyCookie::Proxy, @context.cookies_jar
     end
   end
 end
