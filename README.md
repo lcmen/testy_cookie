@@ -10,12 +10,12 @@ In `ActionController::TestCase` tests and RSpec controller specs, `cookies_jar` 
 
 ## Usage
 
-Inside your controller / integration / request test, call `cookies_jar` helper to access cookies jar:
+Inside your controller / integration / request test, call `cookie_jar` helper to access cookies jar:
 
 ```ruby
-cookies_jar.encrypted[:key]
-cookies_jar.signed[:key] = value
-cookies_jar.signed.encrypted.permanent[:key] = value
+cookie_jar.encrypted[:key]
+cookie_jar.signed[:key] = value
+cookie_jar.signed.encrypted.permanent[:key] = value
 ```
 
 ## Installation
