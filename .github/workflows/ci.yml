@@ -31,4 +31,4 @@ jobs:
         with:
           bundler-cache: true
       - name: Run all tests
-        run: bin/rake test
+        run: bin/rake test_all
