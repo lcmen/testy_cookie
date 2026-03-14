@@ -1,4 +1,6 @@
 name: CI
+permissions:
+  contents: read
 concurrency:
   group: rails-${{ github.head_ref || 'main' }}
   cancel-in-progress: true
