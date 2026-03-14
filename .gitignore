@@ -9,3 +9,5 @@
 /test/dummy/tmp/
 
 **/*/spec/examples.txt
+gemfiles/*.gemfile.lock
+gemfiles/vendor/

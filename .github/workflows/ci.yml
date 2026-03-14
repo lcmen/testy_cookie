@@ -22,8 +22,14 @@ jobs:
       - name: Run bundle-audit
         run: bin/bundle-audit --update
   tests:
-    name: Tests
+    name: Tests (Rails ${{ matrix.rails }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rails: ["7", "8", "8_1"]
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails }}.gemfile
     steps:
       - uses: actions/checkout@v4
       - name: Install Ruby and Gems

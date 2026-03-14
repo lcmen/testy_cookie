@@ -2,6 +2,7 @@ $LOAD_PATH.unshift(File.expand_path("test", __dir__))
 
 require "bundler/setup"
 require "bundler/gem_tasks"
+ARGV.clear
 require "rails/plugin/test"
 
 task :test_dummy do
